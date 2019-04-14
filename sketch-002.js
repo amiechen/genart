@@ -9,7 +9,6 @@ const settings = {
 const sketch = () => {
   return ({ context, width, height }) => {
     const redPalette = ["#2b2e4a", "#e84545", "#903749", "#53354a"];
-    const palePalette = ["#fafafa", "#ffe9e3", "#c4c1e0", "#7c73e6"];
     const circles = 100;
     const cx = width / 2;
     const cy = height / 2;
@@ -30,6 +29,7 @@ const sketch = () => {
       const end = lerp(0, Math.PI * 2, Math.random());
 
       // every circle has different line width, from small to big
+      // the distance between each ring is consistant
       lineWidth = lineWidth + 5 + 2 * i;
       radius = radius + 10 + lineWidth;
 
