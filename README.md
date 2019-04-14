@@ -1,6 +1,6 @@
-GENART
+# GENART
 
-### a place to put my results practicing genart, using mattdesl's canvas-sketch
+### Me practicing genart, using mattdesl's canvas-sketch
 
 | File Name     | Preview Image                                   |
 | ------------- | ----------------------------------------------- |
