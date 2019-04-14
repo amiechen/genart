@@ -2,7 +2,7 @@ GENART
 
 ### a place to put my results practicing genart, using mattdesl's canvas-sketch
 
-| File Name     | Preview Image                         |
-| ------------- | ------------------------------------- |
-| sketch-001.js | ![001](./screenshots/001-a.png =200x) |
-| sketch-002.js | ![002](./screenshots/002-a.png =200x) |
+| File Name     | Preview Image                  |
+| ------------- | ------------------------------ |
+| sketch-001.js | ![001](./screenshots/001-a.png | width=200) |
+| sketch-002.js | ![002](./screenshots/002-a.png | width=200) |
