@@ -1,4 +1,4 @@
-# 🎠GENERATIVE ART
+# 👾 GENERATIVE ART
 
 To run a sketch locally
 
