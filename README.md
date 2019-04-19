@@ -1,7 +1,9 @@
-# GENART
+# 🎠GENERATIVE ART
+
+To run a sketch locally
 
 ```
-canvas-sketch sketch --open
+canvas-sketch sketch-001.js --open
 ```
 
 ### Me practicing genart, using mattdesl's canvas-sketch
