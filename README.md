@@ -6,7 +6,12 @@ To run a sketch locally
 canvas-sketch sketch-001.js --open
 ```
 
-### Me practicing genart, using mattdesl's canvas-sketch
+### Requirements
+
+Install these libraries first:
+
+- [canvas-sketch](https://github.com/mattdesl/canvas-sketch)
+- [canvas-sketch-util](https://github.com/mattdesl/canvas-sketch-util)
 
 | File Name                        | Preview Image                                                                                  |
 | -------------------------------- | ---------------------------------------------------------------------------------------------- |
