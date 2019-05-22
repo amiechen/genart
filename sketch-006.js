@@ -4,13 +4,13 @@ const { lerp } = require("canvas-sketch-util/math");
 
 const settings = {
   // Enable an animation loop
-  animate: true,
+  // animate: true,
   // Set loop duration to 3 seconds
-  duration: 3,
+  // duration: 3,
   // Use a small size for our GIF output
   dimensions: [2048, 2048],
   // Optionally specify an export frame rate, defaults to 30
-  fps: 24
+  // fps: 24
 };
 
 const sketch = () => {
