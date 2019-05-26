@@ -38,14 +38,13 @@ const sketch = () => {
   return ({ context, width, height, playhead }) => {
     context.lineWidth = 3;
     const female = (x, y, rotation) => {
-      const color = random.pick(random.pick(palettes));
-      context.strokeStyle = color;//"#555353";
-      context.fillStyle = color; //"#555353";
+      context.strokeStyle = "#555353";
+      context.fillStyle = "#555353";
       context.save();
       context.beginPath();
-      context.moveTo(x, y);
-      context.arc(x, y, 30, 0, Math.PI * 2, true);
-      context.fill();
+      // context.moveTo(x, y);
+      // context.arc(x, y, 30, 0, Math.PI * 2, true);
+      // context.fill();
 
       context.moveTo(x - 20, y + 45);
       context.lineTo(x + 20, y + 45);
@@ -62,13 +61,13 @@ const sketch = () => {
 
     const male = (x, y, rotation) => {
       const color = random.pick(random.pick(palettes));
-      context.strokeStyle = color;//"#555353";
-      context.fillStyle = color; //"#555353";
+      context.strokeStyle = "#555353";
+      context.fillStyle = "#555353";
       context.save();
       context.beginPath();
-      context.moveTo(x, y);
-      context.arc(x, y, 30, 0, Math.PI * 2, true);
-      context.fill();
+      // context.moveTo(x, y);
+      // context.arc(x, y, 30, 0, Math.PI * 2, true);
+      // context.fill();
 
       context.moveTo(x - 20, y + 45);
       context.lineTo(x, y + 70);
