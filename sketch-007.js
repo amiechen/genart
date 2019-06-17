@@ -9,8 +9,8 @@ const settings = {
 const sketch = () => {
   const createGrid = () => {
     const points = [];
-    const countx = 3;
-    const county = 3;
+    const countx = 8;
+    const county = 7;
     let order = 1;
     for (let x = 0; x < countx; x++) {
       for (let y = 0; y < county; y++) {
@@ -19,7 +19,7 @@ const sketch = () => {
         order += 1;
         points.push({
           order,
-          text: ["o", "r"],
+          text: ["0", "1"],
           position: [u, v]
         });
       }
@@ -27,7 +27,7 @@ const sketch = () => {
     return points;
   };
   const points = createGrid();
-  const margin = 500;
+  const margin = 600;
   return ({ context, width, height }) => {
     WebFont.load({
       google: {
@@ -36,7 +36,6 @@ const sketch = () => {
     });
 
     context.fillStyle = 'white';
-    context.font = "bold 100px Hammersmith One";
     context.fillRect(0, 0, width, height);
 
     points.forEach((point) => {
@@ -46,11 +45,14 @@ const sketch = () => {
       const y = lerp(margin, height - margin, v);
 
       context.fillStyle = "black";
-      if (order % 2) {
-        context.fillText(text[1], x, y);
-      } else {
-        context.fillText(text[0], x, y);
-      }
+      context.font = "100 80px Courier New";
+      context.fillText(text[0], x, y);
+      // if (order > 7 && order < 14) {
+      // if (order % 2) {
+      //   context.fillText(text[1], x, y);
+      // } else {
+      //   context.fillText(text[0], x, y);
+      // }
     })
   };
 };
