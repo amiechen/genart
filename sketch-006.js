@@ -1,108 +1,112 @@
-const canvasSketch = require('canvas-sketch');
-const { random } = require("canvas-sketch-util");
+// still WIP
+const canvasSketch = require("canvas-sketch");
 const { lerp } = require("canvas-sketch-util/math");
+const random = require("canvas-sketch-util/random");
 const palettes = require("nice-color-palettes");
+// const WebFont = require("webfontloader");
 
 const settings = {
-  // Enable an animation loop
-  // animate: true,
-  // Set loop duration to 3 seconds
-  // duration: 3,
-  // Use a small size for our GIF output
-  dimensions: [2048, 2048],
-  // Optionally specify an export frame rate, defaults to 30
-  // fps: 24
+  dimensions: [2048, 2048]
 };
 
-const sketch = () => {
+const sketch = ({ canvas, update }) => {
+  // WebFont.load({
+  //   google: {
+  //     families: ["Alfa Slab One"]
+  //   }
+  // });
+  const mouse = createMouse(canvas, {
+    onMove: () => update()
+  });
+  // return points on the grid
   const createGrid = () => {
     const points = [];
-    const count = 15;
+    const count = 5;
     for (let x = 0; x < count; x++) {
       for (let y = 0; y < count; y++) {
-        const u = count <= 1 ? 0.5 : x / (count - 1);
-        const v = count <= 1 ? 0.5 : y / (count - 1);
+        // u v represent x y inbetween 0 and 1
+        const u = x / (count - 1);
+        const v = y / (count - 1);
 
         points.push({
           position: [u, v],
-          rotation: random.pick([0, Math.PI * 0.5, Math.PI, Math.PI * 1.5])
-        })
+          radius: 80
+        });
       }
     }
     return points;
-  }
+  };
 
-  const gridPoints = createGrid();
-  const margin = 300;
+  const points = createGrid();
+  const margin = 400;
+  const canvasWidth = 820;
 
-  return ({ context, width, height, playhead }) => {
-    context.lineWidth = 3;
-    const female = (x, y, rotation) => {
-      context.strokeStyle = "#555353";
-      context.fillStyle = "#555353";
-      context.save();
-      context.beginPath();
-      // context.moveTo(x, y);
-      // context.arc(x, y, 30, 0, Math.PI * 2, true);
-      // context.fill();
+  // render function
+  return {
+    render(props) {
+      const { context, width, height } = props;
+      context.fillStyle = "black";
+      context.fillRect(0, 0, width, height);
+      console.log(
+        mouse.position[0] / canvasWidth,
+        mouse.position[1] / canvasWidth
+      );
+      points.forEach(point => {
+        const { radius, position } = point;
+        const [u, v] = position;
+        // lerp(min, max, t) where t is expected to between 0 .. 1
+        const x = lerp(margin, width - margin, u);
+        const y = lerp(margin, height - margin, v);
+        context.beginPath();
+        context.rect(x - 90, y - 90, 180, 180);
+        context.fillStyle = random.pick(random.pick(palettes));
+        context.fill();
+        context.closePath();
 
-      context.moveTo(x - 20, y + 45);
-      context.lineTo(x + 20, y + 45);
-      context.stroke();
-
-      context.moveTo(x, y - 25);
-      context.lineTo(x, y + 65);
-      context.stroke();
-
-      context.restore();
-      console.log(rotation);
-      // context.rotate(rotation);
-    };
-
-    const male = (x, y, rotation) => {
-      const color = random.pick(random.pick(palettes));
-      context.strokeStyle = "#555353";
-      context.fillStyle = "#555353";
-      context.save();
-      context.beginPath();
-      // context.moveTo(x, y);
-      // context.arc(x, y, 30, 0, Math.PI * 2, true);
-      // context.fill();
-
-      context.moveTo(x - 20, y + 45);
-      context.lineTo(x, y + 70);
-      context.lineTo(x + 20, y + 45);
-      context.stroke();
-
-      context.moveTo(x, y + 70);
-      context.lineTo(x, y + 25);
-      context.stroke();
-
-      context.restore();
-      // context.rotate(rotation);
-    };
-
-    context.fillStyle = 'black';
-    context.fillRect(0, 0, width, height);
-
-    // Get a seamless 0..1 value for our loop
-    const t = Math.sin(playhead * Math.PI);
-
-    gridPoints.forEach((point, index) => {
-      const { position, rotation } = point;
-      const [u, v] = position;
-      const x = lerp(margin, width - margin, u);
-      const y = lerp(margin, height - margin, v);
-
-      if (index % 2) {
-        female(x, y, rotation)
-      } else {
-        male(x, y, rotation)
-      }
-    })
+        context.beginPath();
+        context.rect(x - 40, y - 40, radius, radius);
+        context.fillStyle = random.pick(random.pick(palettes));
+        context.fill();
+        context.closePath();
+      });
+    },
+    unload() {
+      mouse.dispose();
+    }
   };
 };
 
 canvasSketch(sketch, settings);
 
+// using Matt's mouse template on https://codesandbox.io/s/canvas-sketch-mouse-movement-mkknt
+function createMouse(canvas, opts = {}) {
+  const mouse = {
+    moved: false,
+    position: [0, 0],
+    normalized: [0, 0],
+    dispose
+  };
 
+  window.addEventListener("mousemove", move);
+
+  return mouse;
+
+  function move(ev) {
+    mouseEventOffset(ev, canvas, mouse.position);
+    if (opts.onMove) opts.onMove();
+  }
+
+  function dispose() {
+    window.removeEventListener("mousemove", move);
+  }
+}
+
+function mouseEventOffset(ev, target, out = [0, 0]) {
+  target = target || ev.currentTarget || ev.srcElement;
+  const cx = ev.clientX || 0;
+  const cy = ev.clientY || 0;
+  const rect = target.getBoundingClientRect();
+  out[0] = cx - rect.left;
+  out[1] = cy - rect.top;
+  return out;
+}
