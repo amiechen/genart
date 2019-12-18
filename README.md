@@ -22,3 +22,4 @@ Install these libraries first:
 | [sketch-005.js](./sketch-005.js) | <img src="./screenshots/005-a.png" width="200"><img src="./screenshots/005-b.png" width="200"> |
 | [sketch-005.js](./sketch-006.js) | <img src="./screenshots/006-a.png" width="200"><img src="./screenshots/006-b.png" width="200"> |
 | [sketch-007.js](./sketch-007.js) | <img src="./screenshots/007-a.png" width="200"><img src="./screenshots/007-b.png" width="200"> |
+| [sketch-007.js](./sketch-008.js) | <img src="./screenshots/008-a.png" width="200"><img src="./screenshots/008-b.png" width="200"> |
