@@ -10,14 +10,14 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "canvas-sketch": "^0.7.1",
+    "canvas-sketch": "^0.7.4",
     "canvas-sketch-util": "^1.10.0",
     "canvas2svg": "^1.0.16",
     "nice-color-palettes": "^3.0.0",
-    "p5": "^0.10.2",
-    "three": "^0.112.1",
-    "two.js": "^0.7.0-beta.3",
-    "webfont": "^9.0.0",
+    "p5": "^1.4.0",
+    "three": "^0.131.3",
+    "two.js": "^0.7.8",
+    "webfont": "^11.2.26",
     "webfontloader": "^1.6.28"
   }
 }

@@ -1,81 +1,59 @@
-
 const canvasSketch = require("canvas-sketch");
-const svg = require("./canvas-to-svg.js");
+const { lerp } = require("canvas-sketch-util/math");
+const random = require("canvas-sketch-util/random");
 
 const settings = {
-  scaleToView: true,
-  dimensions: "A4",
-  units: "in",
-  animate: false,
-  time: 1.5,
-  duration: 5,
-  pixelsPerInch: 300
+  dimensions: [2048, 2048],
 };
 
-const sketch = async () => {
-  // Setup your font assets here
-  const fontName = "Suprapower-Heavy";
-  const fontFormat = ".otf";
-  const fontPath = "assets/fonts/";
+const sketch = () => {
+  const createGrid = () => {
+    const points = [];
+    const count = 10;
+    for (let x = 0; x < count; x++) {
+      for (let y = 0; y < count; y++) {
+        const u = count <= 1 ? 0.5 : x / (count - 1);
+        const v = count <= 1 ? 0.5 : y / (count - 1);
+        points.push({
+          radius: 80,
+          position: [u, v],
+        });
+      }
+    }
+    return points;
+  };
 
-  try {
-    // We ensure the font is loaded before rendering,
-    // otherwise the first frame might not draw the correct font.
-    const fontUrl = `${fontPath}${fontName}${fontFormat}`;
-    const font = new window.FontFace(fontName, `url(${fontUrl})`);
-    await font.load();
-    document.fonts.add(font);
-  } catch (err) {
-    console.warn(`Font not loaded, will fall back to another sans-serif.`);
-  }
+  const points = createGrid();
+  const margin = 300;
 
-  return svg(({ context, width, height, playhead }) => {
-    const margin = 0.5; // half inch margin
-
-    // fill paper white bg
-    context.fillStyle = "hsl(0, 0%, 100%)";
+  return ({ context, width, height }) => {
+    let current = true; //point.position[1] * 10;
+    context.fillStyle = "white";
     context.fillRect(0, 0, width, height);
 
-    // fill gray ink bg
-    context.fillStyle = "hsl(0, 0%, 90%)";
-    context.fillRect(margin, margin, width - margin * 2, height - margin * 2);
+    points.forEach((point) => {
+      let blah1 = Math.round(point.position[0] * 10);
+      let blah2 = Math.round(point.position[1] * 10);
+      const { radius, position } = point;
+      const [u, v] = position;
+      const x = lerp(margin, width - margin, u);
+      const y = lerp(margin, height - margin, v);
 
-    // draw some rect shape
-    context.save();
-    context.fillStyle = "tomato";
-    const size = width * 0.5;
-    context.translate(width / 2, height / 2);
-    context.rotate(playhead * Math.PI * 2);
-    context.translate(-size / 2, -size / 2);
-    context.fillRect(0, 0, size, size);
-    context.restore();
+      context.beginPath();
 
-    // draw some path shape
-    context.beginPath();
-    context.arc(
-      width / 2,
-      height / 2,
-      width / 4,
-      0,
-      Math.PI * 2 * playhead,
-      false
-    );
-    context.lineWidth = width * 0.1;
-    context.lineJoin = "round";
-    context.lineCap = "round";
-    context.strokeStyle = "rebeccapurple";
-    context.globalAlpha = 0.85;
-    context.stroke();
-    context.globalAlpha = 1;
+      if (blah1 % 2 == blah2 % 2) {
+        context.fillStyle = "black";
+        context.arc(x, y, radius, 0, Math.PI * 2, false);
+        current = false;
+      } else {
+        context.fillStyle = "red";
+        context.arc(x, y, radius, 0, Math.PI * 2, false);
+        current = true;
+      }
 
-    // draw some text - which will be exported as <text>
-    // (i.e. no fonts embedded!)
-    context.font = `${width * 0.075}px "${fontName}", "Helvetica", sans-serif`;
-    context.textAlign = "center";
-    context.textBaseline = "middle";
-    context.fillStyle = "black";
-    context.fillText("SVG", width / 2, height / 2);
-  });
+      context.fill();
+    });
+  };
 };
 
 canvasSketch(sketch, settings);
